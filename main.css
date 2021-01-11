@@ -1,0 +1,78 @@
+@import 'normalize.css';
+
+tr.peg {
+    height: 30px; 
+}
+
+td.peg {
+    width: 30px;
+}
+
+tr.result {
+    height:12px;    
+}
+
+td.result{
+    width:10px;
+    font-size:.35em;
+    border-radius:6px;
+}
+
+.result0 {
+    background-color: darkgray;
+}
+.result2 {
+    background-color: black;
+}
+.result1 {
+    background-color: white;
+}
+
+.border {
+    border: 1px solid darkgray;
+}
+
+tr.current {
+    background-color: darkgray;
+}
+
+.peg{
+    border-radius: 15px;
+}
+
+.peg0{
+    background-color:gray;   
+}
+
+.peg1{
+    background-color:red;   
+}
+.peg2{
+    background-color:yellow;   
+}
+.peg3{
+    background-color:lightgreen;   
+}
+.peg4{
+    background-color:blue;   
+}
+.peg5{
+    background-color:orange;    
+}
+.peg6{
+    background-color:violet;    
+}
+.peg7{
+    background-color:brown;    
+}
+.peg8{
+    background-color:cyan;    
+}
+
+table.field {
+    background-color:lightgray;
+}
+
+body {
+    background-color: darkgray;
+}
