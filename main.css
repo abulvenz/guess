@@ -1,29 +1,30 @@
 @import 'normalize.css';
-
 tr.peg {
-    height: 30px; 
+    height: 8.7vh;
 }
 
 td.peg {
-    width: 30px;
+    width: 16vw;
 }
 
 tr.result {
-    height:12px;    
+    height: 2.7vh;
 }
 
-td.result{
-    width:10px;
-    font-size:.35em;
-    border-radius:6px;
+td.result {
+    width: 8vw;
+    font-size: .35em;
+    border-radius: 6px;
 }
 
 .result0 {
     background-color: darkgray;
 }
+
 .result2 {
     background-color: black;
 }
+
 .result1 {
     background-color: white;
 }
@@ -36,41 +37,48 @@ tr.current {
     background-color: darkgray;
 }
 
-.peg{
+.peg {
     border-radius: 15px;
 }
 
-.peg0{
-    background-color:gray;   
+.peg0 {
+    background-color: gray;
 }
 
-.peg1{
-    background-color:red;   
+.peg1 {
+    background-color: red;
 }
-.peg2{
-    background-color:yellow;   
+
+.peg2 {
+    background-color: yellow;
 }
-.peg3{
-    background-color:lightgreen;   
+
+.peg3 {
+    background-color: lightgreen;
 }
-.peg4{
-    background-color:blue;   
+
+.peg4 {
+    background-color: blue;
 }
-.peg5{
-    background-color:orange;    
+
+.peg5 {
+    background-color: orange;
 }
-.peg6{
-    background-color:violet;    
+
+.peg6 {
+    background-color: violet;
 }
-.peg7{
-    background-color:brown;    
+
+.peg7 {
+    background-color: brown;
 }
-.peg8{
-    background-color:cyan;    
+
+.peg8 {
+    background-color: cyan;
 }
 
 table.field {
-    background-color:lightgray;
+    background-color: lightgray;
 }
 
 body {
