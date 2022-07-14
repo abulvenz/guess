@@ -24,7 +24,53 @@ const model = {
 };
 
 m.mount(document.body, {
-    view: vnode =>
+    view: vnode => [
+        div.game(
+            div.colors(
+                alphabet.map(
+                    a => div.color[`peg${a}`]({
+                        onclick: () => model.game.next(a)
+                    }))
+            ),
+            div.field(
+                div.guess(
+                    div.guessedPeg(), div.guessedPeg(), div.guessedPeg(), div.guessedPeg(),
+                    div.result(
+                        div.resultPeg1()
+                    )
+                ),
+
+                model.game.guesses().map(
+                    (guess, idx) =>
+                    use(idx === model.game.current(), current =>
+                        div.guess[current ? "current" : ""](
+                            guess.pegs.map(
+                                (peg, idx) => div.guessedPeg[`peg${peg}`](
+                                    current ? { onclick: () => guess.pegs[idx] = (guess.pegs[idx] + 1) % alphabet.length } : {},
+                                    showColors ? peg : "")
+                            ),
+                            div.result(current ? { onclick: e => model.game.login() } : {},
+                                table(
+                                    range(guess.result.length).map(
+                                        p => div[`result-peg${guess.result[p]}`]()
+                                    )
+                                )
+                            )
+                        )),
+                    // tr.peg(
+                    //     model.game.solution().map(
+                    //         peg => td.peg[`peg${peg}`](showColors ? peg : "")
+                    //     ),
+                    //     (model.game.won() ? td({
+                    //         onclick: () =>
+                    //             model.game = genGame(alphabet, numPegs, numTries)
+                    //     }) : null)
+                    // )
+                )
+
+
+            )
+        ),
         table(
             tr(
                 td(
@@ -35,7 +81,7 @@ m.mount(document.body, {
                             }))
                         ),
                         tr.peg(td.peg.peg0({
-                            onclick: () => model.game.won() || model.solver.step(model.game) || model.game.login()
+                            onclick: () => model.solver.step(model.game)
                         }))
                     )
                 ), td(
@@ -46,7 +92,7 @@ m.mount(document.body, {
                                 tr.peg[current ? "current" : ""](
                                     guess.pegs.map(
                                         (peg, idx) => td.peg[`peg${peg}`](
-                                            current ? { onclick: () => guess.pegs[idx] = (guess.pegs[idx] + 1) % (alphabet.length + 1) } : {},
+                                            current ? { onclick: () => guess.pegs[idx] = (guess.pegs[idx] + 1) % alphabet.length } : {},
                                             showColors ? peg : "")
                                     ),
                                     td(current ? { onclick: e => model.game.login() } : {},
@@ -73,4 +119,5 @@ m.mount(document.body, {
                 )
             )
         )
+    ]
 });

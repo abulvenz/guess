@@ -1,3 +1,5 @@
+import { evaluate } from "./guess-game";
+
 const { min, max, trunc, random } = Math;
 const { create } = Object;
 
@@ -43,3 +45,5 @@ const game = function(numPegs = 4, numTries = 10) {
 };
 
 console.log(game());
+
+evaluate();

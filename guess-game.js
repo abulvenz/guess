@@ -1,7 +1,18 @@
-import { histogram, print, randomElement, range, use } from "./util";
+import { histogram, print, randomElement, range, repeat, use } from "./util";
 
 const { keys, assign } = Object;
 const { min, ceil, trunc, random } = Math;
+
+export const evaluate = function(solution, guess) {
+    const exactMatches = (peg, idx) => peg === solution[idx];
+    const numBlacks = guess.filter(exactMatches).length;
+    const guessHist = histogram(guess);
+    const solutionHist = histogram(solution);
+    const numWhites = keys(solutionHist)
+        .map((color) => min(solutionHist[color], guessHist[color] || 0))
+        .reduce((sum, colorMatches) => sum + colorMatches, 0) - numBlacks;
+    return { numBlacks, numWhites };
+};
 
 export const genGame = function(alphabet, numPegs, numTries) {
     const solution = range(numPegs).map(() => randomElement(alphabet));
@@ -10,26 +21,26 @@ export const genGame = function(alphabet, numPegs, numTries) {
         result: range(numPegs).map(() => 0),
     }));
     let guess = 0;
+    const currentGuess = () => guesses[guess];
+    const notSet = (p) => p === 0;
     const login = () => {
-        if (guesses[guess].pegs.some(p => p === 0))
+        if (currentGuess().pegs.some(notSet)) {
             return;
+        }
 
-        const numBlacks = guesses[guess].pegs.filter((peg, idx) => peg === solution[idx]).length;
-        const guessedHist = histogram(guesses[guess].pegs);
-        const solutionHist = histogram(solution);
+        const {
+            numBlacks,
+            numWhites
+        } = evaluate(solution, currentGuess().pegs);
 
-        const numWhites = keys(solutionHist)
-            .map(key => min(solutionHist[key], guessedHist[key] || 0))
-            .reduce((acc, v) => acc + v, 0) - numBlacks;
-
-        guesses[guess].result = [
-            ...range(numBlacks).map(() => 2),
-            ...range(numWhites).map(() => 1),
-            ...range(numPegs - numBlacks - numWhites).map(() => 0)
+        currentGuess().result = [
+            ...repeat(2, numBlacks),
+            ...repeat(1, numWhites),
+            ...repeat(0, numPegs - numBlacks - numWhites)
         ];
 
         if (numBlacks < numPegs) {
-            guess += 1;
+            guess = guess + 1;
         } else {
             guess = -1;
         }
@@ -38,8 +49,8 @@ export const genGame = function(alphabet, numPegs, numTries) {
     const won = () => guess === -1;
     return {
         next: col => use(
-            guesses[guess].pegs.findIndex(e => e === 0),
-            (idx) => idx >= 0 ? guesses[guess].pegs[idx] = col : login()
+            currentGuess().pegs.findIndex(e => e === 0),
+            (idx) => idx >= 0 ? currentGuess().pegs[idx] = col : login()
         ),
         guesses: () => guesses,
         solution: () => solution.map(e => won() ? e : 0),
