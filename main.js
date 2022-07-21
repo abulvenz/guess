@@ -19,8 +19,9 @@ const alphabet = range(numColors + 1, 1);
 let showColors = true;
 
 const model = {
+    remaining: null,
     game: genGame(alphabet, numPegs, numTries),
-    solver: solver(alphabet)
+    solver: solver(numPegs,alphabet)
 };
 
 m.mount(document.body, {
@@ -35,31 +36,38 @@ m.mount(document.body, {
                             }))
                         ),
                         tr.peg(td.peg.peg0({
-                            onclick: () => model.game.won() || model.solver.step(model.game) || model.game.login()
-                        }))
+                            onclick: () => {
+                                if (!model.game.won()) {
+                                    model.remaining = model.solver.step(model.game);
+                                    model.game.login();
+                                }
+                            }
+                        },
+                            model.remaining
+                        ))
                     )
                 ), td(
                     table.field(
                         model.game.guesses().map(
                             (guess, idx) =>
-                            use(idx === model.game.current(), current =>
-                                tr.peg[current ? "current" : ""](
-                                    guess.pegs.map(
-                                        (peg, idx) => td.peg[`peg${peg}`](
-                                            current ? { onclick: () => guess.pegs[idx] = (guess.pegs[idx] + 1) % (alphabet.length + 1) } : {},
-                                            showColors ? peg : "")
-                                    ),
-                                    td(current ? { onclick: e => model.game.login() } : {},
-                                        table(
-                                            range(
-                                                trunc(guess.result.length / 2)
-                                            ).map(resultRow => tr.result(range(
-                                                ceil(guess.result.length / 2)
-                                            ).map(some => use(resultRow * ceil(guess.result.length / 2) + some, p => p < guess.result.length ? td.result[`result${guess.result[p]}`]() : null))))
+                                use(idx === model.game.current(), current =>
+                                    tr.peg[current ? "current" : ""](
+                                        guess.pegs.map(
+                                            (peg, idx) => td.peg[`peg${peg}`](
+                                                current ? { onclick: () => guess.pegs[idx] = (guess.pegs[idx] + 1) % (alphabet.length + 1) } : {},
+                                                showColors ? peg : "")
+                                        ),
+                                        td(current ? { onclick: e => model.game.login() } : {},
+                                            table(
+                                                range(
+                                                    trunc(guess.result.length / 2)
+                                                ).map(resultRow => tr.result(range(
+                                                    ceil(guess.result.length / 2)
+                                                ).map(some => use(resultRow * ceil(guess.result.length / 2) + some, p => p < guess.result.length ? td.result[`result${guess.result[p]}`]() : null))))
+                                            )
                                         )
                                     )
-                                )
-                            )),
+                                )),
                         tr.peg(
                             model.game.solution().map(
                                 peg => td.peg[`peg${peg}`](showColors ? peg : "")

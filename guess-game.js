@@ -3,18 +3,19 @@ import { histogram, print, randomElement, range, repeat, use } from "./util";
 const { keys, assign } = Object;
 const { min, ceil, trunc, random } = Math;
 
-export const evaluate = function(solution, guess) {
+export const evaluate = function (solution, guess) {
     const exactMatches = (peg, idx) => peg === solution[idx];
     const numBlacks = guess.filter(exactMatches).length;
     const guessHist = histogram(guess);
     const solutionHist = histogram(solution);
     const numWhites = keys(solutionHist)
         .map((color) => min(solutionHist[color], guessHist[color] || 0))
-        .reduce((sum, colorMatches) => sum + colorMatches, 0) - numBlacks;
+        .reduce((sum, colorMatches) => sum + colorMatches, 0)
+        - numBlacks;
     return { numBlacks, numWhites };
 };
 
-export const genGame = function(alphabet, numPegs, numTries) {
+export const genGame = function (alphabet, numPegs, numTries) {
     const solution = range(numPegs).map(() => randomElement(alphabet));
     const guesses = range(numTries).map(() => assign({
         pegs: range(numPegs).map(() => 0),
