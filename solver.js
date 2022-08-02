@@ -72,7 +72,10 @@ export default freeze(function (N, alphabet) {
         return content;
     };
 
-    const tree = treef; // treeNode(combinations);
+    const tree =
+         treef; 
+        // 
+       // treeNode(combinations);
 
     const filter = (guesses, options = combinations) => {
 

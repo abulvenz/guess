@@ -139,10 +139,50 @@ tr.current {
     background-color: cyan;
 }
 
+.pegb {
+    background-color: black;
+}
+
+.pegw {
+    background-color: white;
+}
+
+.pegg {
+    background-color: darkgray;
+}
+
+.respeg {
+    display: grid;
+    grid-template-rows: 1.0em 1.0em;
+    grid-template-columns: 1.0em 1.0em;
+    gap:0.1em;
+}
+
+
 table.field {
     background-color: lightgray;
 }
 
 body {
     background-color: darkgray;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 700px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr );
+}
+
+.combi {
+    display: grid;
+    grid-template-columns: repeat(4, 1em);
+    gap: 3px;
+}
+
+.elem{
+    margin: 1em 0em;
+    height: 1em;
+    width:1em;
+    border-radius: 0.5em;
 }
