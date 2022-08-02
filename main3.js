@@ -13,6 +13,12 @@ const combiC = vnode => ({
     ))
 })
 
+const traverse = (tree => tree.num = tree.solutions
+    ? Object.keys(tree.solutions).reduce((acc, key) => acc + traverse(tree.solutions[key]), 0)
+    : 1);
+
+traverse(tree);
+
 m.mount(document.body, {
     view:
         vnode => div.container(
@@ -27,16 +33,20 @@ m.mount(document.body, {
                 p("We want to spoil the fun of Master Mind together, right?"),
                 button({ onclick: () => combi = tree }, "OK")
             ] : [
-                h1("Brain"),h1("Outpost"),
+                h1("Brain"), h1("Outpost"),
                 p("You want to start over?"),
                 button({ onclick: () => combi = null }, "Clear"),
+                p("There are still some solutions left:"), p(combi.num),
                 combi.combi ? p("You should now try this combination:") : null,
                 m(combiC, { combi: combi.combi }),
                 combi.solutions ? [
                     p("Which answer do you get for that one?"),
                     div(Object.keys(combi.solutions).map(result =>
                         use(result.split('+'), frac =>
-                            button({ onclick: () => combi = combi.solutions[result], "title": frac[0] + " black " + frac[1] + " white" },
+                            button({ 
+                                onclick: () => combi = combi.solutions[result],
+                                 "title": `${frac[0]} black ${frac[1]} white (${combi.solutions[result].num||0} more solutions)` 
+                                },
                                 div.respeg(
                                     range(+frac[0]).map(e => div.pegb()),
                                     range(+frac[1]).map(e => div.pegw()),
