@@ -13,9 +13,9 @@ const combiC = vnode => ({
     ))
 })
 
-const traverse = (tree => tree.num = tree.solutions
+const traverse = (tree => typeof tree === 'object' ? tree.num = tree.solutions
     ? Object.keys(tree.solutions).reduce((acc, key) => acc + traverse(tree.solutions[key]), 0)
-    : 1);
+    : 1 : 0);
 
 traverse(tree);
 
