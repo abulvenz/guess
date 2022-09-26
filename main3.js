@@ -11,7 +11,7 @@ const combiC = vnode => ({
     view: vnode => use(vnode.attrs.combi, combi => div.combi(
         combi && combi.map(e => div.elem[`peg${e}`](m.trust('&nbsp;')))
     ))
-})
+});
 
 const traverse = (tree => typeof tree === 'object' ? tree.num = tree.solutions
     ? Object.keys(tree.solutions).reduce((acc, key) => acc + traverse(tree.solutions[key]), 0)
