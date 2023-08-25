@@ -140,10 +140,12 @@ tr.current {
 }
 
 .pegb {
+    border-radius: 50%;
     background-color: black;
 }
 
 .pegw {
+    border-radius: 50%;
     background-color: white;
 }
 
